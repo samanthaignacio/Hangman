@@ -3,16 +3,10 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define MAX_LINES 851;
-
 void draw(int);
-void showGuesses(char*);
-void append(char*, char);
+void showGuesses(char*, int);
+void append(char*, char, int);
 void printTitle();
-int gameMenu();
-void onePlayer(char* word);
-void twoPlayers(char* word);
-
 
 int main(void)
 {
@@ -20,6 +14,7 @@ int main(void)
 	char compare[30];         //array to be compared to determine if win
 	char displayWord[30];     //display of the word (_ for unguessed letters)
 	char *guessedLetters;     //incorrect letters guessed
+	const int MAX_LINES = 851;
 
 	int guessedIndex = 0;
 	int chancesLeft = 6;      //chances left to guess before losing
@@ -29,13 +24,12 @@ int main(void)
 	int ifWin;
 	int length;
 	int i;
-	int choice;
+
+	FILE *fPtr;
 
 	char inputLetter;
-	char answer;
 
-	void(*gameMode[])(char*) = { &onePlayer, &twoPlayers };
-
+	srand(time(NULL));
 	system("cls");
 
 	printTitle();
@@ -44,22 +38,26 @@ int main(void)
 
 	getchar();
 
-	//choose gamemode
-	choice = gameMenu();
+	// Read words.txt
+	if ((fPtr = fopen("words.txt", "r")) == NULL) {
+		puts("File could not be opened");
+		return -1;
+	}
 
-	if (2 == choice)
-		return 0;
-	else
-		gameMode[choice](&wordToGuess);
+	// Randomly pick a word from the list
+	int line = rand() % MAX_LINES;
+	for (int i = 0; i < line; i++) {
+		fscanf(fPtr, "%s", &wordToGuess);
+	}
+	fclose(fPtr);
 
 	length = strlen(wordToGuess);
-	guessedLetters = (char *)malloc(sizeof(char) * (chancesLeft + 1));
-	guessedLetters[0] = '\0';
+	guessedLetters = (char *)malloc(sizeof(char) * 7);
 
 	system("cls");
 
 	printTitle();
-	//printf("\n\tEnter your guess.\n");
+	printf("\n\tEnter your guess.\n");
 	draw(chancesLeft);
 
 	printf("\n\n\t");
@@ -82,7 +80,6 @@ int main(void)
 		fflush(stdin);
 
 		scanf("%c", &inputLetter);
-		getchar();
 		if (inputLetter < 'a' || inputLetter > 'z')
 		{
 			system("cls");
@@ -92,7 +89,6 @@ int main(void)
 			guess = 2;  //guess is 2 when input is wrong
 		}
 		fflush(stdin);  //clears the buffer for the next input
-		getchar();
 
 		if (guess != 2)  //when guess is valid input, guess is 0 or 1
 		{
@@ -197,10 +193,10 @@ int main(void)
 	}
 }
 
-void showGuesses(char* guessedLetters)
+void showGuesses(char* guessedLetters, int guessedIndex)
 {
 	printf("\nYour incorrect guesses: ");
-	for (int n = 0; n < strlen(guessedLetters); n++)
+	for (int n = 0; n < guessedIndex; n++)
 	{
 		printf("%c ", guessedLetters[n]);
 	}
@@ -208,13 +204,8 @@ void showGuesses(char* guessedLetters)
 
 void append(char* s, char c, int guessedIndex)
 {
-	int len = strlen(s);
-	s[len] = c;
-	s[len + 1] = '\0';
-}
-
-void initialDraw() {
-
+	s[guessedIndex] = c;
+	s[guessedIndex + 1] = '\0';
 }
 
 void draw(int numAttemptLeft)
@@ -297,53 +288,4 @@ void printTitle() {
 	printf("\n===================\n");
 	printf("   H A N G M A N \n");
 	printf("===================\n");
-}
-
-int gameMenu() {
-	int choice = 0;
-
-	do {
-		printf("Choose the game mode:\n"
-			"0. 1 Player\n"
-			"1. 2 Players\n"
-			"2. Exit\n");
-		scanf("%d", &choice);
-	} while (choice > 2 || choice < 0);
-
-	fflush(stdin);
-	return choice;
-}
-
-void onePlayer(char * word) {
-	FILE *fPtr;
-
-	srand(time(NULL));
-	fflush(stdin);
-	// Read words.txt
-	if ((fPtr = fopen("words.txt", "r")) == NULL) {
-		puts("File could not be opened");
-		return -1;
-	}
-
-	// Randomly pick a word from the list
-	int line = rand() % MAX_LINES;
-	for (int i = 0; i < line; i++) {
-		fscanf(fPtr, "%s", word);
-	}
-	fclose(fPtr);
-	
-}
-
-void twoPlayers(char * word)
-{
-	printf("Player 1\n");
-	printf("\nEnter a word (lowercase letters): ");
-	fflush(stdin);
-
-	scanf("%s", word);
-	getchar();
-
-	printf("\nHit ENTER then give the computer to player 2 to guess your word!");
-	getchar();
-	
 }
