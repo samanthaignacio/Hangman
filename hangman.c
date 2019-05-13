@@ -21,7 +21,7 @@ int main(void)
 	char displayWord[30];     //display of the word (_ for unguessed letters)
 	char *guessedLetters;     //incorrect letters guessed
 
-
+	int guessedIndex = 0;
 	int chancesLeft = 6;      //chances left to guess before losing
 	int guess = 0;
 	int index = 0;
@@ -29,7 +29,6 @@ int main(void)
 	int ifWin;
 	int length;
 	int i;
-	int choice;
 
 	char inputLetter;
 	char answer;
@@ -39,9 +38,6 @@ int main(void)
 	system("cls");
 
 	printTitle();
-	/* printf("\n===================\n");
-	 printf("   H A N G M A N \n");
-	 printf("===================\n");*/
 
 	printf("Press Enter to begin\n");
 
@@ -106,8 +102,9 @@ int main(void)
 			}
 			if (guess == 0) //guess remains 0 if guess is incorrect
 			{
-				append(guessedLetters, inputLetter); //add incorrect guess to guessedLetters array
+				append(guessedLetters, inputLetter, guessedIndex++); //add incorrect guess to guessedLetters array
 				system("cls");
+				puts("HELLO");
 				printTitle();
 				printf("\n\tIncorrect guess. Tries remaining: %d\n", --chancesLeft);
 				draw(chancesLeft);
@@ -182,7 +179,7 @@ int main(void)
 		printf("\n");
 		if (guessedLetters[0] != '\0')
 		{
-			showGuesses(guessedLetters);
+			showGuesses(guessedLetters, guessedIndex);
 		}
 		getchar();
 	}
@@ -208,7 +205,7 @@ void showGuesses(char* guessedLetters)
 	}
 }
 
-void append(char* s, char c)
+void append(char* s, char c, int guessedIndex)
 {
 	int len = strlen(s);
 	s[len] = c;
