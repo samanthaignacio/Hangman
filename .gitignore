@@ -259,7 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/Menu.PNG
-/onePlayer (aeiou).PNG
-/twoPlayers (aeiou).PNG
+
+# Personal items
 *.PNG
+malloc test.c
