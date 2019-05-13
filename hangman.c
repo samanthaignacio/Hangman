@@ -101,7 +101,6 @@ int main(void)
 			{
 				append(guessedLetters, inputLetter, guessedIndex++); //add incorrect guess to guessedLetters array
 				system("cls");
-				puts("HELLO");
 				printTitle();
 				printf("\n\tIncorrect guess. Tries remaining: %d\n", --chancesLeft);
 				draw(chancesLeft);
@@ -146,7 +145,8 @@ int main(void)
 						if (ifWin == 0)
 						{
 							free(guessedLetters);
-
+							system("cls");
+							printTitle();
 							draw(chancesLeft);
 							printf("\n\n\t");
 							for (i = 0; i < length; i++)
