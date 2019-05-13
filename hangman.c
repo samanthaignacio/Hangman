@@ -29,6 +29,7 @@ int main(void)
 	int ifWin;
 	int length;
 	int i;
+	int choice;
 
 	char inputLetter;
 	char answer;
