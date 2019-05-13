@@ -277,14 +277,14 @@ void draw(int numAttemptLeft)
     printf("\n      -----");
   	break;
 
-	case 6:
+    case 6:
 	printf("\n\t|----- ");
 	printf("\n\t|    | ");
 	printf("\n\t|      ");
 	printf("\n\t|      ");
 	printf("\n\t|      ");
 	//printf("\n\t|      ");
-	printf("\n      -----");
+    printf("\n      -----");
   }
   return;
 }
