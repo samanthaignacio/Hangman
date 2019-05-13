@@ -21,7 +21,6 @@ int main(void)
 	char displayWord[30];     //display of the word (_ for unguessed letters)
 	char *guessedLetters;     //incorrect letters guessed
 
-	int guessedIndex = 0;
 	int chancesLeft = 6;      //chances left to guess before losing
 	int guess = 0;
 	int index = 0;
@@ -92,7 +91,6 @@ int main(void)
 			guess = 2;  //guess is 2 when input is wrong
 		}
 		fflush(stdin);  //clears the buffer for the next input
-		getchar();
 
 		if (guess != 2)  //when guess is valid input, guess is 0 or 1
 		{
@@ -103,9 +101,8 @@ int main(void)
 			}
 			if (guess == 0) //guess remains 0 if guess is incorrect
 			{
-				append(guessedLetters, inputLetter, guessedIndex++); //add incorrect guess to guessedLetters array
+				append(guessedLetters, inputLetter); //add incorrect guess to guessedLetters array
 				system("cls");
-				puts("HELLO");
 				printTitle();
 				printf("\n\tIncorrect guess. Tries remaining: %d\n", --chancesLeft);
 				draw(chancesLeft);
@@ -180,9 +177,8 @@ int main(void)
 		printf("\n");
 		if (guessedLetters[0] != '\0')
 		{
-			showGuesses(guessedLetters, guessedIndex);
+			showGuesses(guessedLetters);
 		}
-		getchar();
 	}
 
 	if (chancesLeft <= 0)
@@ -206,15 +202,11 @@ void showGuesses(char* guessedLetters)
 	}
 }
 
-void append(char* s, char c, int guessedIndex)
+void append(char* s, char c)
 {
 	int len = strlen(s);
 	s[len] = c;
 	s[len + 1] = '\0';
-}
-
-void initialDraw() {
-
 }
 
 void draw(int numAttemptLeft)
@@ -307,18 +299,19 @@ int gameMenu() {
 			"0. 1 Player\n"
 			"1. 2 Players\n"
 			"2. Exit\n");
+		fflush(stdin);
 		scanf("%d", &choice);
+		getchar();
 	} while (choice > 2 || choice < 0);
 
-	fflush(stdin);
 	return choice;
 }
 
 void onePlayer(char * word) {
 	FILE *fPtr;
-
 	srand(time(NULL));
 	fflush(stdin);
+
 	// Read words.txt
 	if ((fPtr = fopen("words.txt", "r")) == NULL) {
 		puts("File could not be opened");
@@ -331,7 +324,6 @@ void onePlayer(char * word) {
 		fscanf(fPtr, "%s", word);
 	}
 	fclose(fPtr);
-	
 }
 
 void twoPlayers(char * word)
