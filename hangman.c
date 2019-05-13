@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>    
 #include<string.h>
 #include<stdlib.h>
@@ -5,6 +6,7 @@
 void draw(int);
 void showGuesses(char*);
 void append(char*, char);
+void printTitle();
 
 int main(void)
 {
@@ -12,6 +14,7 @@ int main(void)
   char compare[30];         //array to be compared to determine if win
   char displayWord[30];     //display of the word (_ for unguessed letters)
   char *guessedLetters;     //incorrect letters guessed
+  const int MAX_LINES = 851;
 
   int chancesLeft = 6;      //chances left to guess before losing
   int guess = 0;
@@ -21,48 +24,43 @@ int main(void)
   int length;
   int i;
 
+  FILE *fPtr;
+
   char inputLetter;
   char answer;
 
-  system("clear");
+  srand(time(NULL));
+  system("cls");
 
   printf("\n===================\n");
   printf("   H A N G M A N \n");
   printf("===================\n");
 
-  printf("Player 1\n");
-  printf("\nEnter a word (lowercase letters): ");
-  scanf("%s",wordToGuess);
+  printf("Press Enter to begin\n");
   
   getchar();
 
-  printf("\nHit ENTER then give the computer to player 2 to guess your word!");
-  getchar();
+  // Read words.txt
+  if ((fPtr = fopen("words.txt", "r")) == NULL) {
+	  puts("File could not be opened");
+	  return -1;
+  }
+
+  // Randomly pick a word from the list
+  int line = rand() % MAX_LINES;
+  for (int i = 0; i < line; i++) {
+	  fscanf(fPtr, "%s", &wordToGuess);
+  }
+  fclose(fPtr);
 
   length = strlen(wordToGuess);
   guessedLetters = (char *)malloc(sizeof(char) * 7);
 
-  system("clear");
+  system("cls");
 
-
-  printf("\n===================\n");
-  printf("   H A N G M A N \n");
-  printf("===================\n");
-
-  printf("Player 2\n");
-  printf("\nReady to start? Hit ENTER!");
-
-  getchar();
-
-  system("clear");
-
-  printf("\n\t|----- ");
-  printf("\n\t|    | ");
-  printf("\n\t|      ");
-  printf("\n\t|      ");
-  printf("\n\t|      ");
-  //printf("\n\t|      ");
-  printf("\n      -----");
+  printTitle();
+  printf("\n\tEnter your guess.\n");
+  draw(chancesLeft);
 
   printf("\n\n\t");
   for (i = 0; i < length; i++)
@@ -86,28 +84,34 @@ int main(void)
     scanf("%c",&inputLetter);
     if (inputLetter < 'a' || inputLetter > 'z')
     {
-        system("clear");
-        printf("\nInvalid input. Hit ENTER and try again.");
+        system("cls");
+		printTitle();
+        printf("\n\tInvalid input. Enter a valid character.\n");
+		draw(chancesLeft);
         guess = 2;  //guess is 2 when input is wrong
-    }
+	}
     fflush(stdin);  //clears the buffer for the next input
 
     if (guess != 2)  //when guess is valid input, guess is 0 or 1
     {
       for (index = 0; index < length; index++) {  //checks if letter is in the word
-		    if (inputLetter == wordToGuess[index]) {
-          guess = 1;  //guess is 1 when correct letter is guessed
-        }
+	    if (inputLetter == wordToGuess[index]) {
+		  guess = 1;  //guess is 1 when correct letter is guessed
+		}
       }
       if (guess == 0) //guess remains 0 if guess is incorrect
       {
         append(guessedLetters, inputLetter); //add incorrect guess to guessedLetters array
-        system("clear");
+        system("cls");
+		printTitle();
         printf("\n\tIncorrect guess. Tries remaining: %d\n",--chancesLeft);
         draw(chancesLeft);
       } else  //when guess is correct
       {
-        system("clear");
+        system("cls");
+		printTitle();
+		printf("\n\tCorrect!\n");
+		draw(chancesLeft);
         for (index = 0; index < length; index++)
         {
           guess = 0; //set guess back to 0, then set to 1 if there is a match in the word
@@ -205,6 +209,10 @@ void append(char* s, char c)
   s[len + 1] = '\0';
 }
 
+void initialDraw() {
+
+}
+
 void draw(int numAttemptLeft)
 {
   switch(numAttemptLeft)
@@ -268,6 +276,21 @@ void draw(int numAttemptLeft)
   	//printf("\n\t|      ");
     printf("\n      -----");
   	break;
+
+	case 6:
+	printf("\n\t|----- ");
+	printf("\n\t|    | ");
+	printf("\n\t|      ");
+	printf("\n\t|      ");
+	printf("\n\t|      ");
+	//printf("\n\t|      ");
+	printf("\n      -----");
   }
   return;
+}
+
+void printTitle() {
+	printf("\n===================\n");
+	printf("   H A N G M A N \n");
+	printf("===================\n");
 }
