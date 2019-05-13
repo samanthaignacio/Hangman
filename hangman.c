@@ -328,6 +328,8 @@ void onePlayer(char * word) {
 
 void twoPlayers(char * word)
 {
+	system("cls");
+
 	printf("Player 1\n");
 	printf("\nEnter a word (lowercase letters): ");
 	fflush(stdin);
