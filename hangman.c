@@ -148,7 +148,7 @@ int main(void)
 						{
 							free(guessedLetters);
 
-							draw(chancesLeft);
+							/*draw(chancesLeft);*/
 							printf("\n\n\t");
 							for (i = 0; i < length; i++)
 							{
