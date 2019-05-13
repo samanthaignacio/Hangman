@@ -85,11 +85,11 @@ int main(void)
     if (inputLetter < 'a' || inputLetter > 'z')
     {
         system("cls");
-		printTitle();
+        printTitle();
         printf("\n\tInvalid input. Enter a valid character.\n");
-		draw(chancesLeft);
+        draw(chancesLeft);
         guess = 2;  //guess is 2 when input is wrong
-	}
+    }
     fflush(stdin);  //clears the buffer for the next input
 
     if (guess != 2)  //when guess is valid input, guess is 0 or 1
