@@ -32,9 +32,7 @@ int main(void)
   srand(time(NULL));
   system("cls");
 
-  printf("\n===================\n");
-  printf("   H A N G M A N \n");
-  printf("===================\n");
+  printTitle()
 
   printf("Press Enter to begin\n");
   
@@ -207,10 +205,6 @@ void append(char* s, char c)
   int len = strlen(s);
   s[len] = c;
   s[len + 1] = '\0';
-}
-
-void initialDraw() {
-
 }
 
 void draw(int numAttemptLeft)
