@@ -278,12 +278,12 @@ void draw(int numAttemptLeft)
   	break;
 
     case 6:
-	printf("\n\t|----- ");
-	printf("\n\t|    | ");
-	printf("\n\t|      ");
-	printf("\n\t|      ");
-	printf("\n\t|      ");
-	//printf("\n\t|      ");
+  	printf("\n\t|----- ");
+  	printf("\n\t|    | ");
+  	printf("\n\t|      ");
+  	printf("\n\t|      ");
+  	printf("\n\t|      ");
+  	//printf("\n\t|      ");
     printf("\n      -----");
   }
   return;
